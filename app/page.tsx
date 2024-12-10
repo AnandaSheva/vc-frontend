@@ -31,7 +31,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-1">
-            <img src="/assets/output.gif" alt="Traffic Monitoring" width={640} height={360} className="rounded-lg" loop />
+            <Image src="/assets/output.gif" alt="Traffic Monitoring" layout="responsive" width={640} height={360} className="rounded-lg" />
           </div>
         </div>
       </section>
