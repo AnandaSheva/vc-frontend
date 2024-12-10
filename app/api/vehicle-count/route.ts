@@ -4,8 +4,6 @@ export async function POST(req: Request) {
   try {
     await req.json()
     
-    // Here you would integrate with your ML model
-    // This is a mock response
     const response = {
       timestamp: new Date().toISOString(),
       counts: {
