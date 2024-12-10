@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json()
+    await req.json()
     
     // Here you would integrate with your ML model
     // This is a mock response
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(response)
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to process video' },
       { status: 500 }

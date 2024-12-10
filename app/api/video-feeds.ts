@@ -7,7 +7,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.writeHead(200, {
         'Content-Type': 'multipart/x-mixed-replace; boundary=frame',
       });
-      response.body?.pipe(res); // Stream the video feed
+      if (response.body) {
+        const reader = response.body.getReader();
+        const stream = new ReadableStream({
+          async start(controller) {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                break;
+              }
+              controller.enqueue(value);
+            }
+            controller.close();
+          }
+        });
+
+        const newResponse = new Response(stream);
+        newResponse.body?.pipeTo(new WritableStream({
+          write(chunk) {
+            res.write(chunk);
+          },
+          close() {
+            res.end();
+          }
+        }));
+      }
     } else {
       res.status(response.status).send(`Error: ${response.statusText}`);
     }
