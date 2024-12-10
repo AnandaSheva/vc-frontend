@@ -11,9 +11,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else {
       res.status(response.status).send(`Error: ${response.statusText}`);
     }
-  } catch (error: any) {
-    res.status(500).send(`Error: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).send(`Error: ${error.message}`);
+    } else {
+      res.status(500).send('Unknown error occurred');
+    }
   }
 }
-
-
